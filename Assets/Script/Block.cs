@@ -24,7 +24,6 @@ public class Block : MonoBehaviour
     public void GetDamage(int damage)
     {
         block_HP -= damage;
-        Debug.Log(damage + ", " +  block_HP);
         if(block_HP <= 0) Destroy_By_Player();
     }
 

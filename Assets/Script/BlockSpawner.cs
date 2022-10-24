@@ -6,7 +6,7 @@ public class BlockSpawner : MonoBehaviour
 {
     [SerializeField] protected GameObject block_prefab;
     [SerializeField] private float spawnRate = 1f;
-    [SerializeField] private float blockOffset = 2.5f;
+    [SerializeField] private float blockOffset = 0.2f;
     private int col = 6;
 
     private void Start()
@@ -28,12 +28,12 @@ public class BlockSpawner : MonoBehaviour
     
     private void SpawnBlock()
     {
-        int rand = Random.Range(0, col);
-        Instantiate(block_prefab, new Vector3(colNumToZcord(rand),.7f,74f), Quaternion.identity);
+        int rand = Random.Range(1, col);
+        Instantiate(block_prefab, new Vector3(colNumToXcord(rand), .025f, 1.55f), Quaternion.identity);
     }
 
-    private float colNumToZcord(int num)
+    private float colNumToXcord(int num)
     {
-        return blockOffset* (2 * num - 5);
+        return blockOffset * (2 * num - 6);
     }
 }

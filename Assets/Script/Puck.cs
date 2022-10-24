@@ -12,8 +12,8 @@ public class Puck : MonoBehaviour
     {
         rigid = GetComponent<Rigidbody>();
         coll = GetComponent<Collider>();
-        StartCoroutine(InitialRetreive());
-        rigid.AddForce(Vector3.right * 30f, ForceMode.Impulse);
+        //StartCoroutine(InitialRetreive());
+        //rigid.AddForce(Vector3.right * 30f, ForceMode.Impulse);
     }
 
     private IEnumerator InitialRetreive()
