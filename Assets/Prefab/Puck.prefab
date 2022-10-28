@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 4236257939857012201}
   - component: {fileID: 1756479495}
   - component: {fileID: 2367102006592952195}
-  - component: {fileID: 1540015654222044632}
-  m_Layer: 0
+  - component: {fileID: 5745430176292985501}
+  m_Layer: 8
   m_Name: Puck
   m_TagString: Puck
   m_Icon: {fileID: 0}
@@ -115,17 +115,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puck_Damage: 5
---- !u!64 &1540015654222044632
+--- !u!64 &5745430176292985501
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 825248714494307798}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 294ecc6aae0c4694cbf2491fa95fdf93, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}

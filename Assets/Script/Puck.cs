@@ -13,7 +13,15 @@ public class Puck : MonoBehaviour
         rigid = GetComponent<Rigidbody>();
         coll = GetComponent<Collider>();
         //StartCoroutine(InitialRetreive());
-        //rigid.AddForce(Vector3.right * 30f, ForceMode.Impulse);
+        
+    }
+
+    private void Update()
+    {
+        if(Input.GetMouseButtonDown(0))
+        {
+            rigid.AddForce(Vector3.right * 1f, ForceMode.Impulse);
+        }
     }
 
     private IEnumerator InitialRetreive()
@@ -45,11 +53,11 @@ public class Puck : MonoBehaviour
             block.GetDamage(puck_Damage);
         }
 
-        rigid.velocity = .9f * rigid.velocity;
-        if(rigid.velocity.sqrMagnitude <= 9)
-        {
-            Retrieve();
-        }
+        // rigid.velocity = .9f * rigid.velocity;
+        // if(rigid.velocity.sqrMagnitude <= 9)
+        // {
+        //     Retrieve();
+        // }
     }
 
     private void OnTriggerEnter(Collider coll)
