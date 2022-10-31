@@ -5,8 +5,9 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-    public GameObject BlockPrefab;
     public int score = 0;
+    public float spawnRate = 1f;
+    public float gameTimer = 0f;
 
     private void Awake()
     {
@@ -18,18 +19,34 @@ public class GameManager : MonoBehaviour
         Initialize();    
     }
 
+    private void Update()
+    {
+        spawnRate = 1f + (score / 1000) + (gameTimer / 100f);
+    }
+
     private void Initialize()
     {
         score = 0;
+        StartCoroutine(Timer());
     }
 
     public void GetScore(int achieved)
     {
         score += achieved;
+        UIManager.Instance.SetScore(score);
     }
 
     public void ResetGame()
     {
         
+    }
+
+    private IEnumerator Timer()
+    {
+        while(true)
+        {
+            yield return null;
+            gameTimer += Time.deltaTime;
+        }
     }
 }

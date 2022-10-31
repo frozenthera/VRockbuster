@@ -7,7 +7,14 @@ public class Block : MonoBehaviour
     [SerializeField] protected int block_HP;
     [SerializeField] protected int block_score;
     [SerializeField] protected int block_damage;
+    public float Block_speed => block_speed;
     [SerializeField] protected float block_speed;
+    protected Material mat;
+
+    private void Start()
+    {
+        mat = GetComponent<Material>();
+    }
 
     private void Update() 
     {

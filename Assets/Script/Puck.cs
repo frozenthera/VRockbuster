@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Puck : MonoBehaviour
 {
+    public int Puck_damage => puck_Damage;
     [SerializeField] private int puck_Damage = 5;
     private Rigidbody rigid;
     private Collider coll;
@@ -13,14 +14,14 @@ public class Puck : MonoBehaviour
         rigid = GetComponent<Rigidbody>();
         coll = GetComponent<Collider>();
         //StartCoroutine(InitialRetreive());
-        
     }
 
     private void Update()
     {
         if(Input.GetMouseButtonDown(0))
         {
-            rigid.AddForce(Vector3.right * 1f, ForceMode.Impulse);
+            rigid.velocity = Vector3.zero;
+            rigid.AddForce(new Vector3(1f, 0, 1f), ForceMode.Impulse);
         }
     }
 
@@ -40,26 +41,6 @@ public class Puck : MonoBehaviour
         rigid.AddForce(new Vector3(dir.x, 0, dir.z), ForceMode.Impulse);
     }
 
-    private void OnCollisionEnter(Collision coll)
-    {
-        if(coll.transform.CompareTag("Puck"))
-        {
-            //추가 효과
-        }
-
-        if(coll.transform.CompareTag("Block"))
-        {
-            Block block = coll.transform.GetComponent<Block>();
-            block.GetDamage(puck_Damage);
-        }
-
-        // rigid.velocity = .9f * rigid.velocity;
-        // if(rigid.velocity.sqrMagnitude <= 9)
-        // {
-        //     Retrieve();
-        // }
-    }
-
     private void OnTriggerEnter(Collider coll)
     {
         if(coll.transform.CompareTag("Bottom"))
@@ -68,7 +49,7 @@ public class Puck : MonoBehaviour
         }
     }
 
-    private void Retrieve()
+    public void Retrieve()
     {
         Debug.Log("retrieved");
         PlayerManager.Instance.GetPuck(1);

@@ -17,7 +17,7 @@ public class BlockSpawner : MonoBehaviour
     private IEnumerator SpawnRoutine()
     {
         float time = 0f;
-        while(time < 1 / spawnRate)
+        while(time < 1 / GameManager.Instance.spawnRate)
         {
             yield return null;
             time += Time.deltaTime;

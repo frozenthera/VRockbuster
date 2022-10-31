@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
     private int player_HP;
-    private int curPuckCnt;
+    [SerializeField] private int curPuckCnt;
     public static PlayerManager Instance;
     [SerializeField] private GameObject PuckPrefab;
 
@@ -24,7 +24,10 @@ public class PlayerManager : MonoBehaviour
 
     private void Update() 
     {
-        
+        if(Input.GetMouseButtonDown(1))
+        {
+            SpawnPuck(new Vector3(-0.064f, 0.05f, -0.788f));
+        }
     }
 
     public void GetDamage(int damage)
@@ -42,7 +45,14 @@ public class PlayerManager : MonoBehaviour
 
     public void SpawnPuck(Vector3 pos)
     {
-        Debug.Log(pos);
-        Instantiate(PuckPrefab, Vector3.zero, Quaternion.identity);
+        if(curPuckCnt < 1)
+        {
+            Debug.Log("You don't have puck!");
+        }
+        else
+        {
+            Instantiate(PuckPrefab, Vector3.zero, Quaternion.identity);
+            curPuckCnt--;  
+        }
     }
 }
