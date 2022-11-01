@@ -21,7 +21,7 @@ public class BlockSpawner : MonoBehaviour
             yield return null;
             time += Time.deltaTime;
         }
-        SpawnBlock((int)GameManager.Instance.spawnRate - 2);
+        SpawnBlock((int)GameManager.Instance.spawnRate);
         StartCoroutine(SpawnRoutine());
     }
     
