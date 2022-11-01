@@ -8,7 +8,8 @@ public class PuckPhysics : MonoBehaviour
     private Puck myPuck;
 
     private Vector3 lastFrameVelocity;
-    private float minVelocity = 0f;
+    private float minVelocity = 1f;
+    private float maxVelocity = 5f;
 
     private void Start()
     {
@@ -25,6 +26,7 @@ public class PuckPhysics : MonoBehaviour
     private void AddVelocity(float horizontal, float vertical)
     {
         rigid.velocity += new Vector3(horizontal, 0, vertical);
+        rigid.velocity = rigid.velocity.normalized * Mathf.Min(maxVelocity, rigid.velocity.magnitude);
     }
 
     private void OnCollisionEnter(Collision coll)
@@ -53,6 +55,11 @@ public class PuckPhysics : MonoBehaviour
             Block block = coll.transform.GetComponent<Block>();
             block.GetDamage(myPuck.Puck_damage);
         }
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if (rigid.velocity.magnitude < 1f) myPuck.Retrieve();
     }
 
     private void Bounce(Vector3 collisionNormal)

@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Block : MonoBehaviour
 {
-    [SerializeField] protected int block_HP;
+    
+    public int block_HP;
     [SerializeField] protected int block_score;
     [SerializeField] protected int block_damage;
     public float Block_speed => block_speed;
@@ -13,12 +14,13 @@ public class Block : MonoBehaviour
 
     private void Start()
     {
-        mat = GetComponent<Material>();
+        mat = GetComponent<Renderer>().material;
     }
 
     private void Update() 
     {
         transform.position += Vector3.back * block_speed * Time.deltaTime;
+        UpdateColor();
     }
 
     public Block(int _block_HP, int _block_score, int _block_damage)
@@ -32,6 +34,13 @@ public class Block : MonoBehaviour
     {
         block_HP -= damage;
         if(block_HP <= 0) Destroy_By_Player();
+    }
+
+    public void UpdateColor()
+    {
+        float refNum = 255 - ((float)block_HP / 20) * 155;
+        Debug.Log(refNum);
+        mat.color = new Color(refNum/255, 0, refNum / 255, 1);
     }
 
     public void Destory_By_Descend()
