@@ -33,14 +33,15 @@ public class Block : MonoBehaviour
     public void GetDamage(int damage)
     {
         block_HP -= damage;
+        Debug.Log(damage);
         if(block_HP <= 0) Destroy_By_Player();
     }
 
     public void UpdateColor()
     {
-        float refNum = 255 - ((float)block_HP / 20) * 155;
-        //Debug.Log(refNum);
-        mat.color = new Color(refNum/255, 0, refNum / 255, 1);
+        float refNum = ((float)block_HP / 10) * 280;
+        mat.color = Color.HSVToRGB(refNum / 360, 1f, 1f);
+        //mat.color = new Color(refNum/255, 0, refNum / 255, 1);
     }
 
     public void Destory_By_Descend()

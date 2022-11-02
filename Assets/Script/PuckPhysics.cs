@@ -8,8 +8,8 @@ public class PuckPhysics : MonoBehaviour
     private Puck myPuck;
 
     private Vector3 lastFrameVelocity;
-    private float minVelocity = 1f;
-    private float maxVelocity = 3f;
+    private float minVelocity = 0f;
+    private float maxVelocity = 2f;
 
     private void Start()
     {
@@ -19,7 +19,7 @@ public class PuckPhysics : MonoBehaviour
 
     private void Update()
     {
-        rigid.velocity += Time.deltaTime * Vector3.forward * -0.5f;
+        if(!myPuck.isFirstSpawned) rigid.velocity += Time.deltaTime * Vector3.forward * -1f;
         lastFrameVelocity = rigid.velocity;
         rigid.velocity = rigid.velocity.normalized * Mathf.Min(maxVelocity, rigid.velocity.magnitude);
     }
@@ -43,7 +43,7 @@ public class PuckPhysics : MonoBehaviour
             Block block = coll.transform.GetComponent<Block>();    
             if(coll.transform.position.z > transform.position.z)
             {
-                AddVelocity(0, -block.Block_speed);
+                AddVelocity(0, -block.Block_speed - .01f);
             }
         }
     }
@@ -53,7 +53,7 @@ public class PuckPhysics : MonoBehaviour
         if(coll.transform.CompareTag("Block"))
         {
             Block block = coll.transform.GetComponent<Block>();
-            block.GetDamage(myPuck.Puck_damage);
+            block.GetDamage(myPuck.Puck_damage * (int)myPuck.powerMultiplier);
         }
     }
 
@@ -68,5 +68,6 @@ public class PuckPhysics : MonoBehaviour
         var direction = Vector3.Reflect(lastFrameVelocity.normalized, collisionNormal);
 
         GetComponent<Rigidbody>().velocity = direction * Mathf.Max(speed, minVelocity);
+        myPuck.AddBounce();
     }
 }

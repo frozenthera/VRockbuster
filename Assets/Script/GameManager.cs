@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        spawnRate = 1f +  (score / 1000) + (gameTimer / 200f);
+        spawnRate = .16f + (score / 1000) + (gameTimer / 200f);
     }
 
     private void Initialize()
@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour
     public void GetScore(int achieved)
     {
         score += achieved;
+        PlayerManager.Instance.UpdatedScore(score);
         UIManager.Instance.SetScore(score);
     }
 

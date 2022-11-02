@@ -17,7 +17,7 @@ public class BlockSpawner : MonoBehaviour
     private IEnumerator SpawnRoutine()
     {
         float time = 0f;
-        while(time < 3f)
+        while(time < 6f)
         {
             yield return null;
             time += Time.deltaTime;
@@ -42,7 +42,7 @@ public class BlockSpawner : MonoBehaviour
                 continue;
             }
             Block block = Instantiate(block_prefab, new Vector3(colNumToXcord(rand), .025f, 1.55f), Quaternion.identity).GetComponent<Block>();
-            block.block_HP = Random.Range(5, 20);
+            block.block_HP = Random.Range(1, 10);
         }     
     }
 

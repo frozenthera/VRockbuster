@@ -10,13 +10,7 @@ public class RightHand : MonoBehaviour
     public LayerMask layermask;         // get plane layer 
 
     public SteamVR_Action_Boolean Grab;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
         HandleControlUpdate();

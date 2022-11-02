@@ -14,6 +14,9 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private SteamVR_Action_Boolean Trigger;     // VR input
     [SerializeField] private Transform puckSpawnPoint;           // spqwn point + check empty
 
+    private float curTimeScale = 1f;
+    private bool isBulletTime = false;
+
     private void Awake()
     {
         Instance = this;
@@ -32,7 +35,11 @@ public class PlayerManager : MonoBehaviour
     {
         if(Input.GetMouseButtonDown(1))
         {
-            SpawnPuck(new Vector3(-0.064f, 0.05f, -0.788f));
+            ActivateBulletTime();
+        }
+        if (Input.GetMouseButtonDown(0))
+        {
+            DeactivateBulletTime();
         }
     }
 
@@ -94,4 +101,58 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    public void UpdatedScore(int score)
+    {
+        if(score / 10 - 1 > maxPuckCnt)
+        {
+            maxPuckCnt++;
+            curPuckCnt++;
+        }
+    }
+
+    private void ActivateBulletTime()
+    {
+        isBulletTime = true;
+        StartCoroutine(BulletTimeActivate());
+    }
+
+    private void DeactivateBulletTime()
+    {
+        isBulletTime = false;
+        StartCoroutine(BulletTimeDeactivate());
+    }
+
+    private IEnumerator BulletTimeActivate()
+    {
+        while(curTimeScale > .1f)
+        {
+            if (!isBulletTime)
+            {
+                StartCoroutine(BulletTimeDeactivate());
+                yield break;
+            }
+            curTimeScale -= Time.unscaledDeltaTime;
+            Time.timeScale = curTimeScale;
+            yield return new WaitForSecondsRealtime(Time.unscaledDeltaTime);
+        }
+        curTimeScale = .1f;
+        Time.timeScale = curTimeScale;
+    }
+
+    private IEnumerator BulletTimeDeactivate()
+    {
+        while (curTimeScale < 1f)
+        {
+            if (isBulletTime)
+            {
+                StartCoroutine(BulletTimeActivate());
+                yield break;
+            }
+            curTimeScale += Time.unscaledDeltaTime;
+            Time.timeScale = curTimeScale;
+            yield return new WaitForSecondsRealtime(Time.unscaledDeltaTime);
+        }
+        curTimeScale = 1f;
+        Time.timeScale = curTimeScale;
+    }
 }

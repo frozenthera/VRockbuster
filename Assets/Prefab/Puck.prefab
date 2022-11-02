@@ -117,7 +117,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dacd7eb3dc43ef34888f2482917f6282, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  puck_Damage: 5
+  puck_Damage: 1
 --- !u!114 &8342630830925167254
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -10,18 +10,10 @@ public class Handle : MonoBehaviour
 
     public float bouncy_multiplier = .1f;
 
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void FixedUpdate()
     {
         curpos = transform.position;
-        velocity = (curpos - oldpos) / Time.deltaTime;
+        velocity = (curpos - oldpos) / Time.unscaledDeltaTime;
         velocity *= bouncy_multiplier;
         //print("velocity : " + velocity);
         oldpos = curpos;
