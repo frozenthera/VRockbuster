@@ -36,7 +36,7 @@ public class PlayerManager : MonoBehaviour
 
     private void Start() 
     {
-        player_HP = 100;
+        player_HP = 30;
         UIManager.Instance.SetLifePoint(player_HP);    
         curPuckCnt = 1;
         maxPuckCnt = 1;

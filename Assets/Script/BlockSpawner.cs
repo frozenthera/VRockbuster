@@ -45,7 +45,6 @@ public class BlockSpawner : MonoBehaviour
             {
                 i--;
             }
-
         }     
     }
 
