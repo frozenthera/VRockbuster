@@ -5,7 +5,7 @@ using UnityEngine;
 public class Puck : MonoBehaviour
 {
     public int Puck_damage => puck_Damage;
-    [SerializeField] private int puck_Damage = 5;
+    [SerializeField] private int puck_Damage = 1;
     private Rigidbody rigid;
     private Collider coll;
     private Material mat;
@@ -70,13 +70,14 @@ public class Puck : MonoBehaviour
 
     public void AddBounce()
     {
-        powerMultiplier += .2f;
+        powerMultiplier += .1f;
+        Mathf.Min(powerMultiplier, 10f);
         UpdateColor();
     }
 
     public void UpdateColor()
     {
-        float refNum = (int)powerMultiplier * 50;
+        float refNum = (int)(powerMultiplier * 25 + 5);
         mat.color = new Color(refNum/255, 0, 0, 1);
     }
 }
