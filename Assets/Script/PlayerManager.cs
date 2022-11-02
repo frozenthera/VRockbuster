@@ -10,12 +10,24 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private int maxPuckCnt;
     public static PlayerManager Instance;
     [SerializeField] private GameObject PuckPrefab;
+    [SerializeField] private Handle handle;
 
     [SerializeField] private SteamVR_Action_Boolean Trigger;     // VR input
     [SerializeField] private Transform puckSpawnPoint;           // spqwn point + check empty
-
+    [SerializeField] private SteamVR_Action_Boolean bulletTime_action;     // VR input for bulletTime
+    
     private float curTimeScale = 1f;
+    public bool IsBulletTime => isBulletTime;
     private bool isBulletTime = false;
+    private float GetPuckThreshold = 50f;
+    private float CurGetPuckThreshold;
+
+    private int BTtoken_max = 5;
+    private int BTtoken_cur = 5;
+    private float BTtime_for_token = 2.0f;
+    private bool isTokenUsing = false;
+    private float BTregen_interval = 1.0f;
+    private bool isRegen = false;
 
     private void Awake()
     {
@@ -29,18 +41,107 @@ public class PlayerManager : MonoBehaviour
         curPuckCnt = 1;
         maxPuckCnt = 1;
         UIManager.Instance.SetPuckCnt(curPuckCnt);
+        BTtoken_cur = BTtoken_max;
     }
 
-    private void Update() 
+    private void Update()
     {
-        if(Input.GetMouseButtonDown(1))
+        BulletTimeUpdate();
+        CurGetPuckThreshold = GetPuckThreshold * GameManager.Instance.spawnRate;
+    }
+
+    public void BulletTimeUpdate()
+    {
+        bool b_LTState = bulletTime_action.GetState(SteamVR_Input_Sources.LeftHand);
+        bool b_LTDown = bulletTime_action.GetStateDown(SteamVR_Input_Sources.LeftHand);
+        bool b_LTUp = bulletTime_action.GetStateUp(SteamVR_Input_Sources.LeftHand);
+
+        bool b_RTState = bulletTime_action.GetState(SteamVR_Input_Sources.RightHand);
+        bool b_RTDown = bulletTime_action.GetStateDown(SteamVR_Input_Sources.RightHand);
+        bool b_RTUp = bulletTime_action.GetStateUp(SteamVR_Input_Sources.RightHand);
+
+
+        if ((b_LTDown && b_RTState) || (b_LTState && b_RTDown))
         {
             ActivateBulletTime();
         }
-        if (Input.GetMouseButtonDown(0))
-        {
+
+        if (b_LTUp || b_RTUp){
+            isTokenUsing = false;
             DeactivateBulletTime();
         }
+
+        if (isBulletTime)
+        {
+            if (isTokenUsing == false)
+            {
+                if (BTtoken_cur > 0)
+                {
+                    BTtoken_cur--;
+                    UIManager.Instance.SetBulletTimeGauge(BTtoken_cur);
+                    print("token : " + BTtoken_cur + "/" + BTtoken_max);
+                    isTokenUsing = true;
+                    StartCoroutine(tokenTimer());
+                }
+                else
+                {
+                    DeactivateBulletTime();
+                }
+            }
+        }
+        else
+        {
+            if (isRegen == false)
+            {
+                if (BTtoken_cur < BTtoken_max)
+                {
+                    isRegen = true;
+                
+                    UIManager.Instance.SetBulletTimeGauge(BTtoken_cur);
+                    print("token : " + BTtoken_cur + "/" + BTtoken_max);
+                    StartCoroutine(regenTimer());
+                }
+            }
+        }
+    }
+    private IEnumerator tokenTimer()
+    {
+        StopCoroutine(regenTimer());
+        yield return new WaitForSecondsRealtime(BTtime_for_token);
+        isTokenUsing = false;
+    }
+    private IEnumerator regenTimer()
+    {
+        StopCoroutine(tokenTimer());
+        yield return new WaitForSecondsRealtime(BTregen_interval);
+        isRegen = false;
+        BTtoken_cur++;
+        UIManager.Instance.SetBulletTimeGauge(BTtoken_cur);
+    }
+
+    private IEnumerator BTActiveTimer()
+    {
+        BTtoken_cur--;
+        UIManager.Instance.SetBulletTimeGauge(BTtoken_cur);
+        float time = BTtime_for_token;
+        while(isBulletTime && time > 0f)
+        {
+            yield return new WaitForSecondsRealtime(Time.unscaledDeltaTime);
+            time -= Time.unscaledDeltaTime;
+        }
+        DeactivateBulletTime();
+    }
+
+    private IEnumerator BTRegenTimer()
+    {
+        float time = BTregen_interval;
+        while (!isBulletTime && time > 0f)
+        {
+            yield return new WaitForSecondsRealtime(Time.unscaledDeltaTime);
+            time -= Time.unscaledDeltaTime;
+        }
+        BTtoken_cur++;
+        UIManager.Instance.SetBulletTimeGauge(BTtoken_cur);
     }
 
     private void FixedUpdate() 
@@ -103,16 +204,18 @@ public class PlayerManager : MonoBehaviour
 
     public void UpdatedScore(int score)
     {
-        if(score / 10 - 1 > maxPuckCnt)
+        if((score / CurGetPuckThreshold) >= maxPuckCnt)
         {
             maxPuckCnt++;
             curPuckCnt++;
+            Debug.Log($"{curPuckCnt}, {maxPuckCnt}, {score}");
         }
     }
 
     private void ActivateBulletTime()
     {
         isBulletTime = true;
+        StartCoroutine(handle.StartEcho());
         StartCoroutine(BulletTimeActivate());
     }
 
@@ -124,6 +227,7 @@ public class PlayerManager : MonoBehaviour
 
     private IEnumerator BulletTimeActivate()
     {
+        curTimeScale = .8f;
         while(curTimeScale > .1f)
         {
             if (!isBulletTime)

@@ -5,7 +5,7 @@
       "app_key": "application.generated.unity.vr_blockbuster.exe",
       "launch_type": "url",
       "url": "steam://launch/",
-      "action_manifest_path": "C:\\Users\\Y.G.Kim\\VR_blockbuster\\Assets\\StreamingAssets\\SteamVR\\actions.json",
+      "action_manifest_path": "C:\\Users\\Y.G.Kim\\Documents\\VRockbuster\\Assets\\StreamingAssets\\SteamVR\\actions.json",
       "strings": {
         "en_us": {
           "name": "VR_blockbuster [Testing]"

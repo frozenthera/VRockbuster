@@ -11,6 +11,8 @@ public class PuckPhysics : MonoBehaviour
     private float minVelocity = 0f;
     private float maxVelocity = 2f;
 
+    [SerializeField] private int explosionDamage = 20;
+
     private void Start()
     {
         myPuck = GetComponent<Puck>();
@@ -36,6 +38,25 @@ public class PuckPhysics : MonoBehaviour
         if(coll.transform.CompareTag("Puck"))
         {
             //추가 효과
+            //explooooooooooooooooosion
+            // only lower (smaller z) puck triggers explooooooooooooooosion
+            if (this.transform.position.z < coll.transform.position.z)
+            {
+                float expRadius = 10f;     // radius of explosion ( collision detection area )
+                int expLayer = 1 << 10;     // block : 10 layer ==> 10000_0000_00
+                Collider[] expcoll = Physics.OverlapSphere(coll.contacts[0].point, expRadius, expLayer);
+
+                foreach (Collider _expcoll in expcoll)
+                {
+                    _expcoll.GetComponent<Block>().GetDamage(explosionDamage);
+                    Debug.Log("block damaged by explosion : " + _expcoll.GetComponent<Block>());
+                }
+
+                Debug.Log("puck EXPLOSION!!");
+                Debug.Log(expcoll.Length);
+            }
+
+            myPuck.Retrieve();
         }
 
         if(coll.transform.CompareTag("Block"))

@@ -10,7 +10,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI curPuckCnt;
     [SerializeField] private TextMeshProUGUI curScore;
     [SerializeField] private TextMeshProUGUI curLifePoint;
-
+    [SerializeField] private List<GameObject> bulletTimeImages = new();
     private void Awake()
     {
         Instance = this;
@@ -41,5 +41,17 @@ public class UIManager : MonoBehaviour
     public void SetLifePoint(int cnt)
     {
         curLifePoint.text = $"LIFE : {cnt}";
+    }
+
+    public void SetBulletTimeGauge(int n)
+    {
+        for(int i=0; i< n; i++)
+        {
+            bulletTimeImages[i].SetActive(true);
+        }
+        for(int i=n; i< bulletTimeImages.Count; i++)
+        {
+            bulletTimeImages[i].SetActive(false);
+        }
     }
 }

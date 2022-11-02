@@ -11,6 +11,7 @@ public class Block : MonoBehaviour
     public float Block_speed => block_speed;
     [SerializeField] protected float block_speed;
     protected Material mat;
+    [SerializeField] GameObject destroyParticle;
 
     private void Start()
     {
@@ -62,6 +63,11 @@ public class Block : MonoBehaviour
         {
             Destory_By_Descend();
         }
-        
+    }
+
+    private void OnDestroy()
+    {
+        GameObject go = Instantiate(destroyParticle, transform.position, Quaternion.identity);
+        Destroy(go, go.GetComponent<ParticleSystem>().main.duration + .4f);
     }
 }

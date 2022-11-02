@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4000012469850966}
   - component: {fileID: 114000013071118052}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: LeftRenderModel Slim
   m_TagString: Untagged
   m_Icon: {fileID: 0}

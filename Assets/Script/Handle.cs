@@ -10,7 +10,9 @@ public class Handle : MonoBehaviour
 
     public float bouncy_multiplier = .1f;
 
-    void FixedUpdate()
+    [SerializeField] GameObject handleEcho;
+
+    private void FixedUpdate()
     {
         curpos = transform.position;
         velocity = (curpos - oldpos) / Time.unscaledDeltaTime;
@@ -18,7 +20,6 @@ public class Handle : MonoBehaviour
         //print("velocity : " + velocity);
         oldpos = curpos;
     }
-
 
     public void movePos(Vector3 des){
         transform.position = des;
@@ -44,4 +45,12 @@ public class Handle : MonoBehaviour
         }
     }
 
+    public IEnumerator StartEcho()
+    {
+        while(PlayerManager.Instance.IsBulletTime)
+        {
+            Instantiate(handleEcho, transform.position, Quaternion.identity);
+            yield return new WaitForSecondsRealtime(.1f);
+        }
+    }
 }

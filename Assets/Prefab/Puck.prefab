@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 1756479495}
   - component: {fileID: 2367102006592952195}
   - component: {fileID: 8342630830925167254}
-  - component: {fileID: 5745430176292985501}
   - component: {fileID: 5738977888877994744}
   - component: {fileID: 7145970840393279458}
+  - component: {fileID: 7091507536149131462}
   m_Layer: 8
   m_Name: Puck
   m_TagString: Puck
@@ -33,7 +33,7 @@ Transform:
   m_GameObject: {fileID: 825248714494307798}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.01, z: 0.1}
+  m_LocalScale: {x: 0.05, y: 0.05, z: 0.05}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -46,7 +46,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 825248714494307798}
-  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 2534964839176971238, guid: d82101dd18520f640b54189f4a6bf7c6, type: 3}
 --- !u!23 &4236257939857012201
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -67,7 +67,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9ae192293f61a31479a49ccdca571515, type: 2}
+  - {fileID: -6478536213147159724, guid: d82101dd18520f640b54189f4a6bf7c6, type: 3}
+  - {fileID: -3846018093981099296, guid: d82101dd18520f640b54189f4a6bf7c6, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -118,6 +119,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puck_Damage: 1
+  isFirstSpawned: 1
+  powerMultiplier: 1
 --- !u!114 &8342630830925167254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130,20 +133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 682679f372a4aa147a7c00567ac6eb5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!64 &5745430176292985501
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 825248714494307798}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+  explosionDamage: 20
 --- !u!198 &5738977888877994744
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -4923,3 +4913,17 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!64 &7091507536149131462
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 825248714494307798}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 2534964839176971238, guid: d82101dd18520f640b54189f4a6bf7c6, type: 3}
