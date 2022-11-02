@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        spawnRate = 1f + (score / 1000) + (gameTimer / 100f);
+        spawnRate = 1f +  (score / 1000) + (gameTimer / 200f);
     }
 
     private void Initialize()

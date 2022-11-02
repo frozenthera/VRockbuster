@@ -9,6 +9,7 @@ TagManager:
   - Block
   - FxTemporaire
   - Bottom
+  - PuckBottom
   layers:
   - Default
   - TransparentFX

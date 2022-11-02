@@ -13,7 +13,7 @@ public class Puck : MonoBehaviour
     {
         rigid = GetComponent<Rigidbody>();
         coll = GetComponent<Collider>();
-        //StartCoroutine(InitialRetreive());
+        StartCoroutine(InitialRetreive());
     }
 
     private void Update()
@@ -23,6 +23,8 @@ public class Puck : MonoBehaviour
             rigid.velocity = Vector3.zero;
             rigid.AddForce(new Vector3(1f, 0, 1f), ForceMode.Impulse);
         }
+
+        transform.position = new Vector3(transform.position.x, 0.05f, transform.position.z);
     }
 
     private IEnumerator InitialRetreive()
@@ -38,12 +40,13 @@ public class Puck : MonoBehaviour
 
     public void Hit_By_Player(Vector3 dir)
     {
-        rigid.AddForce(new Vector3(dir.x, 0, dir.z), ForceMode.Impulse);
+        rigid.velocity = dir;
+        //rigid.AddForce(new Vector3(dir.x, 0, dir.z), ForceMode.Impulse);
     }
 
     private void OnTriggerEnter(Collider coll)
     {
-        if(coll.transform.CompareTag("Bottom"))
+        if(coll.transform.CompareTag("PuckBottom"))
         {
             Retrieve();
         }
@@ -54,5 +57,10 @@ public class Puck : MonoBehaviour
         Debug.Log("retrieved");
         PlayerManager.Instance.GetPuck(1);
         Destroy(gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        //Debug.Log(rigid.velocity.magnitude);
     }
 }

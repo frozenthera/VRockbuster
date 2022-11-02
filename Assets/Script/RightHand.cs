@@ -42,8 +42,5 @@ public class RightHand : MonoBehaviour
             Debug.DrawRay(transform.position, -normal * 1000f, Color.red);
         }
 
-
-
-
     }
 }

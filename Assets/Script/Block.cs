@@ -39,7 +39,7 @@ public class Block : MonoBehaviour
     public void UpdateColor()
     {
         float refNum = 255 - ((float)block_HP / 20) * 155;
-        Debug.Log(refNum);
+        //Debug.Log(refNum);
         mat.color = new Color(refNum/255, 0, refNum / 255, 1);
     }
 

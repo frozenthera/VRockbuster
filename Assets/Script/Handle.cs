@@ -8,7 +8,7 @@ public class Handle : MonoBehaviour
     Vector3 oldpos;
     Vector3 velocity;
 
-    public float bouncy_multiplier = 2;
+    public float bouncy_multiplier = .1f;
 
 
     // Start is called before the first frame update
@@ -21,10 +21,8 @@ public class Handle : MonoBehaviour
     void FixedUpdate()
     {
         curpos = transform.position;
-        velocity = curpos - oldpos;
-        velocity.x *= bouncy_multiplier;
-        velocity.y = 0;
-        velocity.z *= bouncy_multiplier;
+        velocity = (curpos - oldpos) / Time.deltaTime;
+        velocity *= bouncy_multiplier;
         //print("velocity : " + velocity);
         oldpos = curpos;
     }
@@ -35,8 +33,18 @@ public class Handle : MonoBehaviour
     }
 
 
-    private void OnCollisionEnter(Collision coll){
+    /*private void OnCollisionEnter(Collision coll){
         if(coll.transform.CompareTag("Puck"))
+        {
+            GameObject other = coll.gameObject;
+            coll.gameObject.GetComponent<Puck>().Hit_By_Player(velocity);
+            print("puck collision => velocity : " + velocity);
+        }
+    }*/
+
+    private void OnTriggerEnter(Collider coll)
+    {
+        if (coll.transform.CompareTag("Puck"))
         {
             GameObject other = coll.gameObject;
             coll.gameObject.GetComponent<Puck>().Hit_By_Player(velocity);

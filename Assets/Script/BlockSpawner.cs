@@ -7,6 +7,7 @@ public class BlockSpawner : MonoBehaviour
     [SerializeField] protected GameObject block_prefab;
     [SerializeField] private float blockOffset = 0.2f;
     private int col = 6;
+    [SerializeField] private float blockToSpawn = 0f;
 
     private void Start()
     {
@@ -16,12 +17,15 @@ public class BlockSpawner : MonoBehaviour
     private IEnumerator SpawnRoutine()
     {
         float time = 0f;
-        while(time < GameManager.Instance.spawnRate)
+        while(time < 3f)
         {
             yield return null;
             time += Time.deltaTime;
+            blockToSpawn += GameManager.Instance.spawnRate * Time.deltaTime;
         }
-        SpawnBlock((int)GameManager.Instance.spawnRate);
+        int toSpawn = (int)blockToSpawn;
+        blockToSpawn -= toSpawn;
+        SpawnBlock(toSpawn);
         StartCoroutine(SpawnRoutine());
     }
     

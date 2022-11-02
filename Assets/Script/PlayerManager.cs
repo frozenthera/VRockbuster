@@ -7,7 +7,7 @@ public class PlayerManager : MonoBehaviour
 {
     private int player_HP;
     [SerializeField] private int curPuckCnt;
-    private int maxPuckCnt;
+    [SerializeField] private int maxPuckCnt;
     public static PlayerManager Instance;
     [SerializeField] private GameObject PuckPrefab;
 
@@ -23,7 +23,7 @@ public class PlayerManager : MonoBehaviour
     {
         player_HP = 100;
         UIManager.Instance.SetLifePoint(player_HP);    
-        curPuckCnt = 0;
+        curPuckCnt = 1;
         maxPuckCnt = 1;
         UIManager.Instance.SetPuckCnt(curPuckCnt);
     }
@@ -58,7 +58,8 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("puck generated on : " + pos);
         Instantiate(PuckPrefab, pos, Quaternion.identity);
-        curPuckCnt ++;
+        curPuckCnt--;
+        UIManager.Instance.SetPuckCnt(curPuckCnt);
     }
     
     // 업데이트 주기마다 체크해서 퍽 스폰하는 함수
@@ -66,7 +67,7 @@ public class PlayerManager : MonoBehaviour
         bool b_LHTrigger      = Trigger.GetStateDown(SteamVR_Input_Sources.LeftHand);
         bool b_testTrigger    = Input.GetKeyDown(KeyCode.T);
         bool b_Trigger        = b_LHTrigger || b_testTrigger;
-        bool b_puckCntAv      = (curPuckCnt < maxPuckCnt);
+        bool b_puckCntAv      = (curPuckCnt <= maxPuckCnt) && (curPuckCnt > 0);
         bool b_isEmpty        = true;
 
         // check spawn point is available
