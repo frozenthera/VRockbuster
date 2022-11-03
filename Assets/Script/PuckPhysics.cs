@@ -12,7 +12,7 @@ public class PuckPhysics : MonoBehaviour
     private float maxVelocity = 2f;
 
     [SerializeField] private int explosionDamage = 5;
-
+    [SerializeField] private GameObject explosionEffect;
     private void Start()
     {
         myPuck = GetComponent<Puck>();
@@ -52,6 +52,7 @@ public class PuckPhysics : MonoBehaviour
                     Debug.Log("block damaged by explosion : " + _expcoll.GetComponent<Block>());
                 }
 
+                Instantiate(explosionEffect, coll.contacts[0].point, Quaternion.identity);
                 Debug.Log("puck EXPLOSION!!");
                 Debug.Log(expcoll.Length);
             }
